@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodingVedha | Predictable Results, Powered by Experience</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+/* Custom Animations */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    @keyframes pulse-slow-delayed {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.15); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      25% { transform: translateY(-20px) translateX(15px); }
+      50% { transform: translateY(-10px) translateX(-10px); }
+      75% { transform: translateY(15px) translateX(5px); }
+    }
+    @keyframes pulse-delayed {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+    @keyframes card-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.1); }
+      50% { box-shadow: 0 0 40px rgba(249, 115, 22, 0.3); }
+    }
+    @keyframes icon-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes spinner-rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes spinner-dash {
+      0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+      50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+      100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+    }
+    @keyframes pulse-slow-scale {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+    .animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
+    .animate-pulse-slow-delayed { animation: pulse-slow-delayed 10s ease-in-out infinite; }
+    .animate-float { animation: float 15s ease-in-out infinite; }
+    .animate-pulse-delayed { animation: pulse-delayed 4s ease-in-out infinite; }
+    .animate-card-glow { animation: card-glow 3s ease-in-out infinite; }
+    .group:hover .animate-icon-bounce { animation: icon-bounce 0.5s ease-in-out; }
+    
+    /* Scroll Animations - Initial State */
+    .scroll-animate {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    
+    .scroll-animate.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Fade In Up */
+    .scroll-fade-up {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .scroll-fade-up.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Fade In */
+    .scroll-fade-in {
+      opacity: 0;
+      transition: opacity 0.6s ease-out;
+    }
+    .scroll-fade-in.active {
+      opacity: 1;
+    }
+    
+    /* Scale In */
+    .scroll-scale-in {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .scroll-scale-in.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    /* Slide In Left */
+    .scroll-slide-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .scroll-slide-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    /* Slide In Right */
+    .scroll-slide-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .scroll-slide-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    /* Staggered Animation Delays */
+    .scroll-delay-100 { transition-delay: 0.1s; }
+    .scroll-delay-200 { transition-delay: 0.2s; }
+    .scroll-delay-300 { transition-delay: 0.3s; }
+    .scroll-delay-400 { transition-delay: 0.4s; }
+    .scroll-delay-500 { transition-delay: 0.5s; }
+    .scroll-delay-600 { transition-delay: 0.6s; }
+    
+    /* Card Hover Effects */
+    .scroll-card {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+    }
+    .scroll-card.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .scroll-card:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(249, 115, 22, 0.15);
+    }
+    
+    /* Stats Counter Animation */
+    .scroll-stat {
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .scroll-stat.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-950 text-gray-200 font-sans scroll-smooth leading-relaxed">
+
+<!-- ================= CUSTOM PRELOADER ================= -->
+<div id="preloader" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950">
+  <!-- Animated background orbs -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-600/20 blur-[120px] animate-pulse-slow"></div>
+    <div class="absolute top-[20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-orange-600/15 blur-[100px] animate-pulse-slow-delayed"></div>
+    <div class="absolute bottom-[-20%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-blue-600/15 blur-[120px] animate-float"></div>
+  </div>
+  
+  <!-- Grid pattern overlay -->
+  <div class="absolute inset-0 bg-[linear-gradient(rgba(100,100,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,255,0.03)_1px,transparent_1px)] bg-[size:80px_80px]"></div>
+  
+  <!-- Radial gradient overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950/50"></div>
+  
+  <!-- Loader content -->
+  <div class="relative flex flex-col items-center">
+    <!-- Logo container -->
+    <div class="mb-8 animate-pulse-slow-scale">
+      <img src="logo.png" alt="CodingVedha Logo" class="h-16 w-auto"/>
+    </div>
+    
+    <!-- Spinner -->
+    <div class="relative">
+      <svg class="w-16 h-16 animate-spinner-rotate" viewBox="0 0 50 50">
+        <circle
+          class="spinner-ring"
+          cx="25"
+          cy="25"
+          r="20"
+          fill="none"
+          stroke="url(#spinner-gradient)"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-dasharray="90, 150"
+          stroke-dashoffset="0"
+        />
+        <defs>
+          <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#a855f7;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <!-- Inner glow circle -->
+      <svg class="absolute top-0 left-0 w-16 h-16 animate-spinner-rotate" viewBox="0 0 50 50" style="animation-duration: 1.5s; animation-direction: reverse;">
+        <circle
+          cx="25"
+          cy="25"
+          r="16"
+          fill="none"
+          stroke="url(#spinner-gradient-inner)"
+          stroke-width="1"
+          stroke-opacity="0.3"
+        />
+        <defs>
+          <linearGradient id="spinner-gradient-inner" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    
+    <!-- Loading text -->
+    <div class="mt-8 text-center">
+      <p class="text-gray-300 text-lg font-medium animate-pulse-slow-scale">Loading Experience</p>
+      <div class="flex items-center justify-center gap-1 mt-3">
+        <span class="w-2 h-2 rounded-full bg-orange-500 animate-bounce" style="animation-delay: 0s;"></span>
+        <span class="w-2 h-2 rounded-full bg-purple-500 animate-bounce" style="animation-delay: 0.15s;"></span>
+        <span class="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style="animation-delay: 0.3s;"></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Progress bar -->
+  <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-48">
+    <div class="h-1 bg-slate-800 rounded-full overflow-hidden">
+      <div class="h-full w-1/2 bg-gradient-to-r from-orange-500 via-purple-500 to-blue-500 rounded-full animate-pulse-slow"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Preloader styles -->
+<style>
+  #preloader {
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+  }
+  
+  #preloader.fade-out {
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .animate-spinner-rotate {
+    animation: spinner-rotate 2s linear infinite;
+  }
+  
+  .animate-spinner-dash {
+    animation: spinner-dash 1.5s ease-in-out infinite;
+  }
+  
+  .spinner-ring {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: 0;
+    animation: spinner-dash 1.5s ease-in-out infinite;
+  }
+</style>
+
+<!-- Preloader script -->
+<script>
+  // Preloader functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const preloader = document.getElementById('preloader');
+    const MIN_DISPLAY_TIME = 2500; // Minimum time to show loader (2.5 seconds)
+    
+    // Get page load time tracker
+    let loadComplete = false;
+    let domReadyTime = Date.now();
+    
+    // When page is fully loaded
+    window.addEventListener('load', function() {
+      loadComplete = true;
+      const loadTime = Date.now();
+      const elapsedTime = loadTime - domReadyTime;
+      
+      // Calculate additional delay needed
+      const additionalDelay = Math.max(0, MIN_DISPLAY_TIME - elapsedTime);
+      
+      // Add fade-out class after minimum display time
+      setTimeout(function() {
+        preloader.classList.add('fade-out');
+        
+        // Remove from DOM after animation completes
+        setTimeout(function() {
+          preloader.style.display = 'none';
+        }, 500);
+      }, additionalDelay);
+    });
+    
+    // Fallback: If load event takes too long, still ensure minimum display time
+    setTimeout(function() {
+      if (!loadComplete) {
+        // Still waiting for page to load, but ensure minimum time has passed
+        const elapsedTime = Date.now() - domReadyTime;
+        const remainingTime = Math.max(0, MIN_DISPLAY_TIME - elapsedTime);
+        
+        setTimeout(function() {
+          if (!preloader.classList.contains('fade-out')) {
+            preloader.classList.add('fade-out');
+            setTimeout(function() {
+              preloader.style.display = 'none';
+            }, 500);
+          }
+        }, remainingTime);
+      }
+    }, MIN_DISPLAY_TIME);
+  });
+</script>
+
+<!-- ================= HEADER ================= -->
+<header class="sticky top-0 z-50 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800">
+  <div class="w-full px-4 md:px-8 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <a href="#home" class="flex items-center">
+      <img src="logo.png" alt="CodingVedha Logo" class="h-10 w-auto"/>
+    </a>
+    
+    <!-- Desktop Navigation (hidden on small screens) -->
+    <nav class="hidden md:flex space-x-8 text-sm font-medium">
+      <a href="#home" class="text-gray-300 hover:text-orange-500 transition">Home</a>
+      <a href="#about" class="text-gray-300 hover:text-orange-500 transition">About</a>
+      <a href="#services" class="text-gray-300 hover:text-orange-500 transition">Services</a>
+      <a href="#devsecops" class="text-gray-300 hover:text-orange-500 transition">DevSecOps</a>
+      <a href="#data-engineering" class="text-gray-300 hover:text-orange-500 transition">Data Engineering</a>
+      <a href="#contact" class="text-gray-300 hover:text-orange-500 transition">Contact</a>
+    </nav>
+    
+    <!-- Hamburger Button (visible on small screens) -->
+    <button id="hamburger-btn" class="md:hidden text-white hover:text-orange-500 focus:outline-none p-2" aria-label="Toggle menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Mobile Menu (hidden by default) -->
+  <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-t border-slate-800">
+    <nav class="flex flex-col px-6 py-4 space-y-3">
+      <a href="#home" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">Home</a>
+      <a href="#about" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">About</a>
+      <a href="#services" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">Services</a>
+      <a href="#devsecops" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">DevSecOps</a>
+      <a href="#data-engineering" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">Data Engineering</a>
+      <a href="#contact" class="text-gray-300 hover:text-orange-500 transition py-2">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Hamburger Menu Toggle
+  document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    
+    hamburgerBtn.addEventListener('click', function() {
+      // Toggle mobile menu visibility
+      mobileMenu.classList.toggle('hidden');
+      
+      // Animate hamburger icon to X
+      if (mobileMenu.classList.contains('hidden')) {
+        hamburgerIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+      } else {
+        hamburgerIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+      }
+    });
+    
+    // Close menu when clicking on a link
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+      });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!hamburgerBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+      }
+    });
+  });
+</script>
+
+<!-- ================= HERO ================= -->
+<!-- ================= HOME (IMPROVED ENTERPRISE VERSION) ================= -->
+<section id="home" class="relative overflow-hidden bg-slate-950">
+  
+  <!-- Animated Background Orbs -->
+  <div class="absolute inset-0 overflow-hidden">
+    <!-- Large purple orb -->
+    <div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-600/20 blur-[120px] animate-pulse-slow"></div>
+    <!-- Large orange orb -->
+    <div class="absolute top-[20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-orange-600/15 blur-[100px] animate-pulse-slow-delayed"></div>
+    <!-- Blue accent orb -->
+    <div class="absolute bottom-[-20%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-blue-600/15 blur-[120px] animate-float"></div>
+    <!-- Small accent orbs -->
+    <div class="absolute top-[40%] left-[60%] w-[20vw] h-[20vw] rounded-full bg-purple-500/10 blur-[80px] animate-pulse"></div>
+    <div class="absolute bottom-[10%] right-[10%] w-[15vw] h-[15vw] rounded-full bg-orange-500/15 blur-[60px] animate-pulse-delayed"></div>
+  </div>
+  
+  <!-- Grid Pattern Overlay -->
+  <div class="absolute inset-0 bg-[linear-gradient(rgba(100,100,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,255,0.03)_1px,transparent_1px)] bg-[size:80px_80px]"></div>
+  
+  <!-- Radial Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950"></div>
+
+  <div class="relative w-full px-4 md:px-8 py-20 sm:py-28 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+    <!-- LEFT CONTENT -->
+    <div>
+      <span class="scroll-animate inline-block mb-4 px-4 py-1 text-xs font-semibold tracking-wide text-orange-500 bg-orange-950/30 rounded-full border border-orange-500/20">
+        Secure • Scalable • Intelligent
+      </span>
+
+      <h1 class="scroll-animate scroll-delay-100 text-4xl md:text-5xl xl:text-6xl font-bold text-white leading-tight mb-6">
+        Predictable Results,<br />
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-orange-400 to-purple-400">Powered by Experience</span>
+      </h1>
+
+      <p class="scroll-animate scroll-delay-200 text-gray-400 text-lg max-w-xl mb-8 leading-relaxed">
+        CodingVedha is a technology consulting company enabling enterprises to
+        build <strong class="text-gray-300">secure software delivery pipelines</strong>,
+        <strong class="text-gray-300">scalable data platforms</strong>, and
+        <strong class="text-gray-300">AI-driven automation</strong> —
+        delivering speed, security, and measurable outcomes.
+      </p>
+
+      <!-- CTA -->
+      <div class="scroll-animate scroll-delay-300 flex flex-wrap gap-4">
+        <a href="#contact"
+           class="group relative bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-8 py-4 rounded-xl text-white font-semibold shadow-lg shadow-purple-600/25 transition-all duration-300 hover:shadow-purple-600/40 hover:scale-105">
+          <span class="relative z-10">Request Free Consultation</span>
+          <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+        </a>
+        <a href="#services"
+           class="px-8 py-4 rounded-xl border border-slate-700 hover:bg-slate-900 hover:border-orange-500 hover:text-orange-500 transition-all duration-300">
+          View Our Capabilities
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE – VALUE BLOCKS -->
+    <div class="grid sm:grid-cols-2 gap-6 relative">
+      <!-- Decorative glow -->
+      <div class="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-orange-600/10 rounded-3xl blur-xl"></div>
+      
+      <div class="scroll-card bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-300 group relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-600/20 to-transparent rounded-full blur-xl group-hover:bg-purple-600/30 transition-all"></div>
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600/20 to-blue-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h4 class="font-semibold text-lg mb-2 text-white group-hover:text-orange-400 transition-colors">DevSecOps Excellence</h4>
+        <p class="text-gray-400 text-sm">
+          Secure-first CI/CD pipelines with automated compliance and cloud-native delivery.
+        </p>
+      </div>
+
+      <div class="scroll-card scroll-delay-100 bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-300 group relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-600/20 to-transparent rounded-full blur-xl group-hover:bg-blue-600/30 transition-all"></div>
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
+        </div>
+        <h4 class="font-semibold text-lg mb-2 text-white group-hover:text-orange-400 transition-colors">Data Engineering at Scale</h4>
+        <p class="text-gray-400 text-sm">
+          Real-time data pipelines, analytics platforms, and enterprise BI solutions.
+        </p>
+      </div>
+
+      <div class="scroll-card scroll-delay-200 bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-300 group relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-600/20 to-purple-600/20 rounded-full blur-xl group-hover:bg-orange-600/30 transition-all"></div>
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-600/20 to-purple-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <h4 class="font-semibold text-lg mb-2 text-white group-hover:text-orange-400 transition-colors">AI-Driven Automation</h4>
+        <p class="text-gray-400 text-sm">
+          Intelligent automation reducing operational overhead and accelerating delivery.
+        </p>
+      </div>
+
+      <div class="scroll-card scroll-delay-300 bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-300 group relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-full blur-xl group-hover:cyan-blue-600/30 transition-all"></div>
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-600/20 to-blue-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        </div>
+        <h4 class="font-semibold text-lg mb-2 text-white group-hover:text-orange-400 transition-colors">Enterprise Consulting</h4>
+        <p class="text-gray-400 text-sm">
+          Outcome-focused solutions aligned with security, scalability, and performance.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <div class="w-6 h-10 rounded-full border-2 border-slate-700 flex items-start justify-center p-1">
+      <div class="w-1.5 h-3 bg-gradient-to-b from-orange-500 to-purple-500 rounded-full animate-pulse"></div>
+    </div>
+  </div>
+
+  <!-- TRUST STRIP -->
+  <div class="scroll-animate relative border-t border-slate-800 bg-slate-950/80">
+    <div class="w-full px-4 md:px-8 py-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center text-sm text-gray-400">
+      <div class="scroll-fade-up scroll-delay-100 flex flex-col items-center">
+        <span class="w-10 h-10 rounded-lg bg-purple-900/50 flex items-center justify-center mb-2">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </span>
+        <p class="text-white font-semibold">Secure-First</p>
+        <p>DevSecOps Delivery</p>
+      </div>
+      <div class="scroll-fade-up scroll-delay-200 flex flex-col items-center">
+        <span class="w-10 h-10 rounded-lg bg-blue-900/50 flex items-center justify-center mb-2">
+          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+        </span>
+        <p class="text-white font-semibold">Cloud-Native</p>
+        <p>Scalable Architecture</p>
+      </div>
+      <div class="scroll-fade-up scroll-delay-300 flex flex-col items-center">
+        <span class="w-10 h-10 rounded-lg bg-orange-900/50 flex items-center justify-center mb-2">
+          <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </span>
+        <p class="text-white font-semibold">AI-Powered</p>
+        <p>Automation & Insights</p>
+      </div>
+      <div class="scroll-fade-up scroll-delay-400 flex flex-col items-center">
+        <span class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center mb-2">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        </span>
+        <p class="text-white font-semibold">Enterprise-Grade</p>
+        <p>Security & Compliance</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= ABOUT ================= -->
+
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="relative py-20 overflow-hidden">
+  
+  <!-- Animated Background Orbs -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-[-10%] right-[-5%] w-[40vw] h-[40vw] rounded-full bg-orange-600/15 blur-[100px] animate-pulse-slow"></div>
+    <div class="absolute bottom-[-10%] left-[-5%] w-[35vw] h-[35vw] rounded-full bg-purple-600/20 blur-[120px] animate-pulse-slow-delayed"></div>
+    <div class="absolute top-[30%] left-[30%] w-[20vw] h-[20vw] rounded-full bg-blue-500/10 blur-[80px] animate-float"></div>
+  </div>
+  
+  <!-- Grid Pattern Overlay -->
+  <div class="absolute inset-0 bg-[linear-gradient(rgba(100,100,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+  
+  <!-- Radial Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/30"></div>
+
+  <div class="relative w-full px-4 md:px-8">
+    
+    <!-- Section Header -->
+    <div class="scroll-animate text-center mb-16">
+      <span class="inline-block mb-4 px-4 py-1 text-xs font-semibold tracking-wide text-orange-500 bg-orange-950/30 rounded-full border border-orange-500/20">
+        Our Story & Vision
+      </span>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-orange-400 to-purple-400">Who We Are</span>
+      </h2>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+        A team of passionate technologists delivering enterprise-grade solutions
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+      
+      <!-- Left Content -->
+      <div class="space-y-6">
+        <div class="scroll-card bg-slate-900/60 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/30 transition-all duration-300 group">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600/20 to-orange-600/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <div>
+              <h4 class="text-xl font-semibold text-white mb-3 group-hover:text-orange-400 transition-colors">Founded in Pune, India</h4>
+              <p class="text-gray-400 leading-relaxed">
+                Established in 2025, CodingVedha is a technology consulting firm built by 
+                seasoned professionals across DevSecOps, Data Engineering, and AI-powered 
+                automation. We bring enterprise expertise to modern software challenges.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="scroll-card scroll-delay-100 bg-slate-900/60 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/30 transition-all duration-300 group">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-600/20 to-purple-600/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            </div>
+            <div>
+              <h4 class="text-xl font-semibold text-white mb-3 group-hover:text-orange-400 transition-colors">Enterprise Experience</h4>
+              <p class="text-gray-400 leading-relaxed">
+                Though young as an organization, our team brings deep experience helping 
+                businesses modernize software delivery, data platforms, and operational 
+                intelligence with measurable outcomes.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="scroll-animate grid grid-cols-3 gap-4 pt-4">
+          <div class="scroll-stat text-center">
+            <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-400">50+</div>
+            <div class="text-sm text-gray-500">Enterprises</div>
+          </div>
+          <div class="scroll-stat scroll-delay-100 text-center">
+            <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">100%</div>
+            <div class="text-sm text-gray-500">Delivery Rate</div>
+          </div>
+          <div class="scroll-stat scroll-delay-200 text-center">
+            <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-orange-400">24/7</div>
+            <div class="text-sm text-gray-500">Support</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Content - Vision & Mission -->
+      <div class="relative">
+        <!-- Decorative glow -->
+        <div class="absolute inset-0 bg-gradient-to-r from-orange-600/10 to-purple-600/10 rounded-3xl blur-xl"></div>
+        
+        <div class="scroll-card relative bg-slate-900/80 backdrop-blur-md p-8 rounded-2xl border border-slate-700 hover:border-orange-500/50 transition-all duration-300">
+          <!-- Glow effect on hover -->
+          <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-500/20 to-purple-500/20 rounded-full blur-2xl group-hover:opacity-100 transition-opacity"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-purple-600 flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+              </div>
+              <h3 class="text-2xl font-bold text-white">Our Vision & Mission</h3>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-all group">
+                <div class="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <div>
+                  <h5 class="text-white font-medium group-hover:text-orange-400 transition-colors">Secure-first DevSecOps</h5>
+                  <p class="text-gray-400 text-sm mt-1">Embedding security at every stage of the delivery pipeline</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-all group">
+                <div class="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
+                </div>
+                <div>
+                  <h5 class="text-white font-medium group-hover:text-orange-400 transition-colors">Data-driven Intelligence</h5>
+                  <p class="text-gray-400 text-sm mt-1">Scalable data platforms enabling informed business decisions</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-all group">
+                <div class="w-8 h-8 rounded-lg bg-orange-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                </div>
+                <div>
+                  <h5 class="text-white font-medium group-hover:text-orange-400 transition-colors">AI-powered Automation</h5>
+                  <p class="text-gray-400 text-sm mt-1">Intelligent automation for efficiency and reduced overhead</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-all group">
+                <div class="w-8 h-8 rounded-lg bg-cyan-600/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                </div>
+                <div>
+                  <h5 class="text-white font-medium group-hover:text-orange-400 transition-colors">Outcome-focused Delivery</h5>
+                  <p class="text-gray-400 text-sm mt-1">Measurable results aligned with your business goals</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section id="services" class="relative py-24 overflow-hidden">
+  
+  <!-- Animated Background Orbs -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-[-10%] left-[-5%] w-[35vw] h-[35vw] rounded-full bg-purple-600/15 blur-[100px] animate-pulse-slow"></div>
+    <div class="absolute top-[20%] right-[-5%] w-[30vw] h-[30vw] rounded-full bg-orange-600/15 blur-[90px] animate-pulse-slow-delayed"></div>
+    <div class="absolute bottom-[-10%] left-[20%] w-[40vw] h-[40vw] rounded-full bg-blue-600/10 blur-[100px] animate-float"></div>
+    <div class="absolute top-[40%] left-[40%] w-[15vw] h-[15vw] rounded-full bg-purple-500/10 blur-[60px] animate-pulse-delayed"></div>
+  </div>
+  
+  <!-- Grid Pattern Overlay -->
+  <div class="absolute inset-0 bg-[linear-gradient(rgba(100,100,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+  
+  <!-- Radial Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950/50"></div>
+
+  <div class="relative w-full px-4 md:px-8">
+    
+    <!-- Section Header -->
+    <div class="scroll-animate text-center mb-16">
+      <span class="inline-block mb-4 px-4 py-1 text-xs font-semibold tracking-wide text-orange-500 bg-orange-950/30 rounded-full border border-orange-500/20">
+        What We Offer
+      </span>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-orange-400 to-purple-400">Our Services</span>
+      </h2>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+        Comprehensive technology solutions tailored to accelerate your digital transformation
+      </p>
+    </div>
+
+    <!-- Services Grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      
+      <!-- Service Card 1: DevSecOps -->
+      <div class="scroll-card group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+        <!-- Glow effect -->
+        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-600/20 to-transparent rounded-full blur-2xl group-hover:bg-purple-500/30 transition-all duration-500"></div>
+        
+        <!-- Icon -->
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600/30 to-blue-600/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+          <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        
+        <h4 class="text-xl font-semibold mb-3 text-white group-hover:text-orange-400 transition-colors duration-300">DevSecOps</h4>
+        <p class="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+          Secure CI/CD pipelines integrating security from code to cloud with automated compliance and continuous monitoring.
+        </p>
+        
+        <!-- Arrow indicator -->
+        <div class="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Service Card 2: Data Engineering -->
+      <div class="scroll-card scroll-delay-100 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+        <!-- Glow effect -->
+        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-600/20 to-transparent rounded-full blur-2xl group-hover:bg-blue-500/30 transition-all duration-500"></div>
+        
+        <!-- Icon -->
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600/30 to-cyan-600/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300">
+          <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
+        </div>
+        
+        <h4 class="text-xl font-semibold mb-3 text-white group-hover:text-orange-400 transition-colors duration-300">Data Engineering</h4>
+        <p class="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+          Scalable data pipelines, analytics platforms, and real-time insights powered by modern cloud architectures.
+        </p>
+        
+        <!-- Arrow indicator -->
+        <div class="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Service Card 3: Software Development -->
+      <div class="scroll-card scroll-delay-200 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+        <!-- Glow effect -->
+        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-600/20 to-purple-600/20 rounded-full blur-2xl group-hover:bg-orange-500/30 transition-all duration-500"></div>
+        
+        <!-- Icon -->
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-600/30 to-purple-600/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+          <svg class="w-7 h-7 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+        </div>
+        
+        <h4 class="text-xl font-semibold mb-3 text-white group-hover:text-orange-400 transition-colors duration-300">Software Development</h4>
+        <p class="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+          Enterprise-grade applications built for scale and performance with modern frameworks and best practices.
+        </p>
+        
+        <!-- Arrow indicator -->
+        <div class="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Service Card 4: IT Resource Staffing -->
+      <div class="scroll-card scroll-delay-300 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+        <!-- Glow effect -->
+        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-full blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500"></div>
+        
+        <!-- Icon -->
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-600/30 to-blue-600/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300">
+          <svg class="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        
+        <h4 class="text-xl font-semibold mb-3 text-white group-hover:text-orange-400 transition-colors duration-300">IT Resource Staffing</h4>
+        <p class="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+          Highly skilled engineers aligned with your delivery goals for seamless project execution and team augmentation.
+        </p>
+        
+        <!-- Arrow indicator -->
+        <div class="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Service Card 5: AI-Based Automation -->
+      <div class="scroll-card scroll-delay-400 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+        <!-- Glow effect -->
+        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-pink-600/20 to-orange-600/20 rounded-full blur-2xl group-hover:bg-pink-500/30 transition-all duration-500"></div>
+        
+        <!-- Icon -->
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-pink-600/30 to-orange-600/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+          <svg class="w-7 h-7 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        
+        <h4 class="text-xl font-semibold mb-3 text-white group-hover:text-orange-400 transition-colors duration-300">AI-Based Automation</h4>
+        <p class="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+          Smarter processes with intelligent automation for faster outcomes and significantly reduced operational costs.
+        </p>
+        
+        <!-- Arrow indicator -->
+        <div class="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </div>
+
+      <!-- Service Card 6: Product Reselling -->
+      <div class="scroll-card scroll-delay-500 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+        <!-- Glow effect -->
+        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-600/20 to-emerald-600/20 rounded-full blur-2xl group-hover:bg-green-500/30 transition-all duration-500"></div>
+        
+        <!-- Icon -->
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-600/30 to-emerald-600/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300">
+          <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        </div>
+        
+        <h4 class="text-xl font-semibold mb-3 text-white group-hover:text-orange-400 transition-colors duration-300">Product Reselling</h4>
+        <p class="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+          Trusted partner for enterprise software and cloud platforms with comprehensive support and licensing.
+        </p>
+        
+        <!-- Arrow indicator -->
+        <div class="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="text-center mt-16">
+      <p class="text-gray-400 mb-6">Not sure what you need? Our experts can help you find the right solution.</p>
+      <a href="#contact" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-purple-600/25 hover:shadow-purple-600/40 transition-all duration-300 hover:scale-105">
+        <span>Get Free Consultation</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= DEVSECOPS ================= -->
+<section id="devsecops" class="relative py-24 overflow-hidden">
+  
+  <!-- Animated Background Orbs -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-[-10%] left-[10%] w-[35vw] h-[35vw] rounded-full bg-purple-600/15 blur-[100px] animate-pulse-slow"></div>
+    <div class="absolute top-[30%] right-[-5%] w-[30vw] h-[30vw] rounded-full bg-orange-600/15 blur-[90px] animate-pulse-slow-delayed"></div>
+    <div class="absolute bottom-[-10%] left-[-5%] w-[40vw] h-[40vw] rounded-full bg-blue-600/10 blur-[100px] animate-float"></div>
+    <div class="absolute top-[50%] left-[50%] w-[12vw] h-[12vw] rounded-full bg-purple-500/10 blur-[50px] animate-pulse-delayed"></div>
+  </div>
+  
+  <!-- Grid Pattern Overlay -->
+  <div class="absolute inset-0 bg-[linear-gradient(rgba(100,100,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+  
+  <!-- Radial Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950/50"></div>
+
+  <div class="relative w-full px-4 md:px-8">
+    
+    <!-- Section Header -->
+    <div class="scroll-animate text-center mb-16">
+      <span class="inline-block mb-4 px-4 py-1 text-xs font-semibold tracking-wide text-orange-500 bg-orange-950/30 rounded-full border border-orange-500/20">
+        Security-First Approach
+      </span>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-orange-400 to-purple-400">DevSecOps Excellence</span>
+      </h2>
+      <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+        Transforming innovation, security, speed & AI-driven operations for enterprise-grade delivery
+      </p>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">
+      
+      <!-- Left: Description & Features -->
+      <div class="space-y-8">
+        <div class="scroll-card bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/30 transition-all duration-300 group">
+          <div class="flex items-start gap-5">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600/30 to-blue-600/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-white mb-3 group-hover:text-orange-400 transition-colors">Secure Pipeline Foundation</h3>
+              <p class="text-gray-400 leading-relaxed">
+                We embed security, automation, and intelligence across the entire software lifecycle—enabling rapid, secure, and compliant delivery that protects your business from day one.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Core Pillars -->
+        <div class="scroll-card scroll-delay-100 bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/30 transition-all duration-300 group">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-purple-600 flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white">Core Pillars</h3>
+          </div>
+          
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">Shift-Left Security</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">CI/CD Automation</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-orange-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">Cloud-Native Architecture</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-cyan-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">Real-Time Observability</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors sm:col-span-2">
+              <div class="w-8 h-8 rounded-lg bg-green-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">24×7 DevSecOps Support & AIOps Integration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Business Impact Cards -->
+      <div class="space-y-6">
+        <div class="scroll-card scroll-delay-200 bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/30 transition-all duration-300 group">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-pink-600 flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white">Business Impact</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-all group-hover:bg-slate-800">
+              <div class="w-12 h-12 rounded-xl bg-green-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-medium group-hover:text-orange-400 transition-colors">Faster Release Cycles</h4>
+                <p class="text-gray-400 text-sm">Accelerate delivery without compromising security</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-all group-hover:bg-slate-800">
+              <div class="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-medium group-hover:text-orange-400 transition-colors">Fewer Vulnerabilities</h4>
+                <p class="text-gray-400 text-sm">Proactive security reduces production incidents</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-all group-hover:bg-slate-800">
+              <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-medium group-hover:text-orange-400 transition-colors">Lower Remediation Cost</h4>
+                <p class="text-gray-400 text-sm">Catch issues early, reduce fix expenses</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-orange-500/30 transition-all group-hover:bg-slate-800">
+              <div class="w-12 h-12 rounded-xl bg-orange-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-medium group-hover:text-orange-400 transition-colors">Audit-Ready Compliance</h4>
+                <p class="text-gray-400 text-sm">Built-in compliance for regulatory requirements</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stats Row -->
+    <div class="scroll-animate grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="scroll-stat bg-slate-900/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 text-center hover:border-orange-500/30 transition-all duration-300 group">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-orange-400 mb-2">40%</div>
+        <div class="text-gray-400 text-sm">Faster Deployments</div>
+      </div>
+      <div class="scroll-stat scroll-delay-100 bg-slate-900/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 text-center hover:border-orange-500/30 transition-all duration-300 group">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-purple-400 mb-2">70%</div>
+        <div class="text-gray-400 text-sm">Vulnerability Reduction</div>
+      </div>
+      <div class="scroll-stat scroll-delay-200 bg-slate-900/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 text-center hover:border-orange-500/30 transition-all duration-300 group">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-2">99.9%</div>
+        <div class="text-gray-400 text-sm">Pipeline Uptime</div>
+      </div>
+      <div class="scroll-stat scroll-delay-300 bg-slate-900/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 text-center hover:border-orange-500/30 transition-all duration-300 group">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">100%</div>
+        <div class="text-gray-400 text-sm">Compliance Ready</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= DATA ENGINEERING ================= -->
+<section id="data-engineering" class="relative py-24 overflow-hidden">
+  
+  <!-- Animated Background Orbs -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-[-10%] right-[-5%] w-[35vw] h-[35vw] rounded-full bg-blue-600/15 blur-[100px] animate-pulse-slow"></div>
+    <div class="absolute top-[20%] left-[-5%] w-[30vw] h-[30vw] rounded-full bg-cyan-600/15 blur-[90px] animate-pulse-slow-delayed"></div>
+    <div class="absolute bottom-[-10%] right-[10%] w-[40vw] h-[40vw] rounded-full bg-purple-600/10 blur-[100px] animate-float"></div>
+    <div class="absolute top-[40%] right-[30%] w-[15vw] h-[15vw] rounded-full bg-blue-500/10 blur-[60px] animate-pulse-delayed"></div>
+  </div>
+  
+  <!-- Grid Pattern Overlay -->
+  <div class="absolute inset-0 bg-[linear-gradient(rgba(100,100,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+  
+  <!-- Radial Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950/50"></div>
+
+  <div class="relative w-full px-4 md:px-8">
+    
+    <!-- Section Header -->
+    <div class="scroll-animate text-center mb-16">
+      <span class="inline-block mb-4 px-4 py-1 text-xs font-semibold tracking-wide text-blue-400 bg-blue-950/30 rounded-full border border-blue-500/20">
+        Enterprise Data Solutions
+      </span>
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400">Data Engineering Solutions</span>
+      </h2>
+      <p class="text-gray-400 max-w-3xl mx-auto text-lg">
+        Power your data-driven transformation with scalable, secure, and intelligent data platforms
+      </p>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">
+      
+      <!-- Left: Description & Capabilities -->
+      <div class="space-y-8">
+        <div class="scroll-card bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-blue-500/30 transition-all duration-300 group">
+          <div class="flex items-start gap-5">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600/30 to-cyan-600/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-white mb-3 group-hover:text-blue-400 transition-colors">Modern Data Platforms</h3>
+              <p class="text-gray-400 leading-relaxed">
+                We design, build, and automate modern data platforms that deliver real-time insights, enterprise scalability, and robust governance—transforming raw data into actionable intelligence.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capabilities Grid -->
+        <div class="scroll-card scroll-delay-100 bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-blue-500/30 transition-all duration-300 group">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white">Core Capabilities</h3>
+          </div>
+          
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">ETL / ELT Pipelines</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-cyan-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">Data Lakes & Warehouses</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">BI Dashboards & Analytics</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-orange-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">Cloud Migration</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-green-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">Cost Optimization</span>
+            </div>
+            
+            <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 hover:bg-slate-800 transition-colors">
+              <div class="w-8 h-8 rounded-lg bg-pink-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+              <span class="text-gray-300 text-sm">DataOps Automation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Business Outcomes -->
+      <div class="space-y-6">
+        <div class="scroll-card scroll-delay-200 bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-blue-500/30 transition-all duration-300 group">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
+            <h3 class="text-xl font-semibold text-white">Business Outcomes</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 transition-all group-hover:bg-slate-800">
+              <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-medium group-hover:text-blue-400 transition-colors">Faster Business Decisions</h4>
+                <p class="text-gray-400 text-sm">Real-time insights enable quick, data-driven choices</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 transition-all group-hover:bg-slate-800">
+              <div class="w-12 h-12 rounded-xl bg-cyan-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-medium group-hover:text-blue-400 transition-colors">Trusted, High-Quality Data</h4>
+                <p class="text-gray-400 text-sm">Clean, validated data you can rely on</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 transition-all group-hover:bg-slate-800">
+              <div class="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-medium group-hover:text-blue-400 transition-colors">Reduced Operational Overhead</h4>
+                <p class="text-gray-400 text-sm">Automated pipelines cut manual effort</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 transition-all group-hover:bg-slate-800">
+              <div class="w-12 h-12 rounded-xl bg-orange-600/20 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              </div>
+              <div>
+                <h4 class="text-white font-medium group-hover:text-blue-400 transition-colors">Enterprise-Scale Performance</h4>
+                <p class="text-gray-400 text-sm">Built to handle petabytes of data</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Tech Stack Row -->
+    <div class="scroll-animate mb-16">
+      <h3 class="text-xl font-semibold text-white text-center mb-8">Technologies We Work With</h3>
+      <div class="flex flex-wrap justify-center gap-4">
+       <div class="scroll-fade-up scroll-delay-100 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">Gitlab</span>
+        </div>
+        <div class="scroll-fade-up scroll-delay-100 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">Snowflake</span>
+        </div>
+        <div class="scroll-fade-up scroll-delay-100 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">Databricks</span>
+        </div>
+        <div class="scroll-fade-up scroll-delay-100 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">AWS</span>
+        </div>
+        <div class="scroll-fade-up scroll-delay-100 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">Azure</span>
+        </div>
+        <div class="scroll-fade-up scroll-delay-100 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">Google Cloud</span>
+        </div>
+        <div class="scroll-fade-up scroll-delay-200 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">Apache Spark</span>
+        </div>
+        <div class="scroll-fade-up scroll-delay-200 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">Kafka</span>
+        </div>
+        <div class="scroll-fade-up scroll-delay-200 px-6 py-3 rounded-xl bg-slate-900/60 backdrop-blur-sm border border-slate-800 hover:border-blue-500/50 transition-all duration-300 group">
+          <span class="text-gray-300 group-hover:text-blue-400 font-medium">Airflow</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="scroll-animate grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="scroll-stat bg-slate-900/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 text-center hover:border-blue-500/30 transition-all duration-300 group">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">10TB+</div>
+        <div class="text-gray-400 text-sm">Data Processed Daily</div>
+      </div>
+      <div class="scroll-stat scroll-delay-100 bg-slate-900/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 text-center hover:border-blue-500/30 transition-all duration-300 group">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-2">99.9%</div>
+        <div class="text-gray-400 text-sm">Pipeline Uptime</div>
+      </div>
+      <div class="scroll-stat scroll-delay-200 bg-slate-900/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 text-center hover:border-blue-500/30 transition-all duration-300 group">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-2">50+</div>
+        <div class="text-gray-400 text-sm">Data Pipelines</div>
+      </div>
+      <div class="scroll-stat scroll-delay-300 bg-slate-900/60 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 text-center hover:border-blue-500/30 transition-all duration-300 group">
+        <div class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-2">40%</div>
+        <div class="text-gray-400 text-sm">Cost Reduction</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="scroll-animate py-20 bg-gradient-to-r from-purple-950 via-slate-950 to-blue-950 text-center">
+  <div class="w-full px-4 md:px-8">
+    <h3 class="text-3xl font-bold text-white mb-4">
+      Ready to Secure, Scale & Innovate?
+    </h3>
+    <p class="text-gray-300 mb-8">
+      Let's discuss how CodingVedha can accelerate your digital transformation.
+    </p>
+    <a href="mailto:contact@CodingVedha.com"
+       class="scroll-animate scroll-delay-200 inline-block bg-gradient-to-r from-orange-500 to-purple-600 text-white px-10 py-4 rounded-xl font-semibold shadow-xl hover:shadow-orange-500/25 hover:scale-105 transition">
+      Contact Our Experts
+    </a>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-slate-950 border-t border-slate-800">
+  <div class="w-full px-4 md:px-8 py-12 sm:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+      
+      <!-- Brand & Description -->
+      <div class="lg:col-span-1">
+        <div class="flex items-center mb-4">
+          <img src="logo.png" alt="CodingVedha Logo" class="h-8 w-auto mr-3"/>
+          <h3 class="text-2xl font-bold text-white">CodingVedha</h3>
+        </div>
+        <p class="text-gray-400 text-sm mb-6">
+          Predictable Results, Powered by Experience. Technology consulting for secure software delivery, scalable data platforms, and AI-driven automation.
+        </p>
+        <div class="flex space-x-4">
+          <!-- LinkedIn -->
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-orange-500 hover:text-white transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <!-- Twitter/X -->
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-purple-500 hover:text-white transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <!-- GitHub -->
+          <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-blue-600 hover:text-white transition">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="text-white font-semibold text-lg mb-6">Our Services</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#devsecops" class="text-gray-400 hover:text-orange-500 transition">DevSecOps</a></li>
+          <li><a href="#data-engineering" class="text-gray-400 hover:text-orange-500 transition">Data Engineering</a></li>
+          <li><a href="#services" class="text-gray-400 hover:text-orange-500 transition">Software Development</a></li>
+          <li><a href="#services" class="text-gray-400 hover:text-orange-500 transition">IT Resource Staffing</a></li>
+          <li><a href="#services" class="text-gray-400 hover:text-orange-500 transition">AI-Based Automation</a></li>
+          <li><a href="#services" class="text-gray-400 hover:text-orange-500 transition">Product Reselling</a></li>
+        </ul>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-white font-semibold text-lg mb-6">Quick Links</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#about" class="text-gray-400 hover:text-orange-500 transition">About Us</a></li>
+          <li><a href="#services" class="text-gray-400 hover:text-orange-500 transition">Services</a></li>
+          <li><a href="#contact" class="text-gray-400 hover:text-orange-500 transition">Contact</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-orange-500 transition">Case Studies</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-orange-500 transition">Careers</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-orange-500 transition">Documentation</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact & Newsletter -->
+      <div>
+        <h4 class="text-white font-semibold text-lg mb-6">Get in Touch</h4>
+        <div class="space-y-3 text-sm text-gray-400 mb-6">
+          <div class="flex items-center space-x-3">
+            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <a href="mailto:contact@CodingVedha.com" class="hover:text-orange-500 transition">contact@CodingVedha.com</a>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>Pune, India</span>
+          </div>
+        </div>
+        
+        <!-- Newsletter -->
+        <div>
+          <h5 class="text-white font-medium text-sm mb-3">Subscribe to Our Newsletter</h5>
+          <form class="flex flex-col sm:flex-row gap-2">
+            <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 text-sm"/>
+            <button type="submit" class="px-4 py-2 bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white rounded-lg font-medium transition text-sm">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-6 sm:pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-gray-500 text-sm">
+        © 2026 CodingVedha. All rights reserved.
+      </p>
+      <div class="flex gap-6 text-sm">
+        <a href="#" class="text-gray-500 hover:text-orange-500 transition">Privacy Policy</a>
+        <a href="#" class="text-gray-500 hover:text-orange-500 transition">Terms of Service</a>
+        <a href="#" class="text-gray-500 hover:text-orange-500 transition">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll Animation Script using Intersection Observer
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create Intersection Observer
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          
+          // Remove observer after animation for one-time animation
+          if (!entry.target.classList.contains('scroll-animate')) {
+            observer.unobserve(entry.target);
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe all scroll animation elements
+    const animatedElements = document.querySelectorAll(
+      '.scroll-animate, .scroll-fade-up, .scroll-fade-in, .scroll-scale-in, .scroll-slide-left, .scroll-slide-right, .scroll-card, .scroll-stat'
+    );
+
+    animatedElements.forEach((el, index) => {
+      // Add staggered delay based on index
+      const siblings = Array.from(el.parentElement.children);
+      const position = siblings.indexOf(el);
+      if (position > 0) {
+        el.style.transitionDelay = `${position * 0.1}s`;
+      }
+      observer.observe(el);
+    });
+
+    // Animate stats counters when they come into view
+    const statNumbers = document.querySelectorAll('.scroll-stat');
+    statNumbers.forEach(stat => {
+      const numberEl = stat.querySelector('div[class*="text-3xl"]');
+      if (numberEl) {
+        observer.observe(stat);
+      }
+    });
+
+    // Parallax effect for background orbs
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const orbs = document.querySelectorAll('[class*="animate-pulse"], [class*="animate-float"]');
+      orbs.forEach((orb, index) => {
+        const speed = 0.05 + (index * 0.02);
+        orb.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
