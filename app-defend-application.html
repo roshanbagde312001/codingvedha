@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Defend Application | CodingVedha</title>
+  <link rel="icon" type="image/png" href="./logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-16px) translateX(10px); }
+    }
+    .animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
+    .animate-float { animation: float 14s ease-in-out infinite; }
+  </style>
+</head>
+<body class="bg-slate-950 text-gray-200 font-sans scroll-smooth leading-relaxed">
+
+<header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+  <div class="w-full px-4 md:px-8 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3">
+      <img src="logo.png" alt="CodingVedha Logo" class="h-10 w-auto" />
+      <span class="text-lg font-semibold text-white">CodingVedha</span>
+    </a>
+    <nav class="flex items-center gap-6 text-sm font-medium">
+      <a href="index.html#products" class="text-gray-300 hover:text-orange-400 transition">Products</a>
+      <a href="index.html#services" class="text-gray-300 hover:text-orange-400 transition">Services</a>
+      <a href="index.html#contact" class="text-gray-300 hover:text-orange-400 transition">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="relative overflow-hidden py-24 md:py-32">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute top-[-10%] left-[-5%] w-[38vw] h-[38vw] rounded-full bg-emerald-600/15 blur-[120px] animate-pulse-slow"></div>
+      <div class="absolute top-[15%] right-[-5%] w-[34vw] h-[34vw] rounded-full bg-blue-600/15 blur-[100px] animate-pulse-slow"></div>
+      <div class="absolute bottom-[-15%] left-[25%] w-[36vw] h-[36vw] rounded-full bg-purple-600/10 blur-[110px] animate-float"></div>
+    </div>
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(100,100,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,255,0.03)_1px,transparent_1px)] bg-[size:72px_72px]"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950"></div>
+
+    <div class="relative w-full px-4 md:px-8 grid lg:grid-cols-[1.2fr_0.8fr] gap-10 items-center">
+      <div>
+        <span class="inline-block mb-5 px-4 py-1 text-xs font-semibold tracking-wide text-emerald-400 bg-emerald-950/30 rounded-full border border-emerald-500/20">
+          Product Page
+        </span>
+        <h1 class="text-4xl md:text-5xl xl:text-6xl font-bold text-white leading-tight mb-6">
+          App Defend
+          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-blue-400 to-orange-400">Application Security Platform</span>
+        </h1>
+        <p class="text-lg text-gray-400 max-w-3xl mb-8">
+          App Defend is an application security testing platform that connects with external SCM and CI/CD tools such as Jenkins, GitLab, and other existing client ecosystems to fetch scan reports and present them in a unified security dashboard.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="mailto:sales@codingvedha.com?subject=App%20Defend%20Demo" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white font-semibold shadow-lg shadow-emerald-600/20 hover:scale-105 transition-all duration-300">
+            <span>Request Demo</span>
+          </a>
+          <a href="index.html#products" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-slate-700 hover:border-orange-500 hover:text-orange-400 transition-all duration-300">
+            <span>Back to Main Site</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-emerald-600/10 to-blue-600/10 rounded-3xl blur-2xl"></div>
+        <div class="relative rounded-3xl border border-slate-800 bg-slate-900/80 backdrop-blur-sm p-8">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="rounded-2xl bg-slate-950/80 border border-slate-800 p-5">
+              <p class="text-sm text-gray-500 mb-2">Deployment model</p>
+              <p class="text-3xl font-bold text-white">Flexible</p>
+            </div>
+            <div class="rounded-2xl bg-slate-950/80 border border-slate-800 p-5">
+              <p class="text-sm text-gray-500 mb-2">Scanner support</p>
+              <p class="text-3xl font-bold text-white">AST+</p>
+            </div>
+            <div class="rounded-2xl bg-slate-950/80 border border-slate-800 p-5 col-span-2">
+              <p class="text-sm text-gray-500 mb-2">Built for</p>
+              <p class="text-lg font-semibold text-white">Security teams, DevSecOps leaders, platform engineering teams, and enterprises using existing client-side CI/CD tools</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative py-20">
+    <div class="w-full px-4 md:px-8">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">What App Defend helps you do</h2>
+        <p class="text-gray-400 max-w-3xl mx-auto">Bring together AST results, pipeline integrations, and vulnerability workflows needed to secure modern applications at scale.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
+          <div class="w-12 h-12 rounded-xl bg-emerald-600/20 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3 class="text-white font-semibold text-xl mb-3">Connect</h3>
+          <p class="text-gray-400">Integrate with SCM and CI/CD tools already used by the client, including Jenkins, GitLab, and similar platforms.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
+          <div class="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3 class="text-white font-semibold text-xl mb-3">Ingest</h3>
+          <p class="text-gray-400">Fetch scan reports from the connected pipelines and normalize the findings into a unified dashboard.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
+          <div class="w-12 h-12 rounded-xl bg-orange-600/20 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 14h.01M16 10h.01M9 16h6M12 3l8 4v6c0 5-3.5 8-8 8s-8-3-8-8V7l8-4z"/></svg>
+          </div>
+          <h3 class="text-white font-semibold text-xl mb-3">Manage</h3>
+          <p class="text-gray-400">Handle out-of-the-box vulnerability management with triage, ownership, prioritization, and tracking.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
+          <div class="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h2m-1-2v4m-7 4h14M5 11l1.5 8h11L19 11"/></svg>
+          </div>
+          <h3 class="text-white font-semibold text-xl mb-3">Scan</h3>
+          <p class="text-gray-400">Use our custom Docker-based images for SAST, secret detection, dependency scanning, SCA, DAST, and more.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative py-20">
+    <div class="w-full px-4 md:px-8 grid lg:grid-cols-2 gap-8">
+      <div class="rounded-3xl border border-slate-800 bg-slate-900/70 p-8">
+        <h2 class="text-3xl font-bold text-white mb-6">Core highlights</h2>
+        <div class="space-y-4">
+          <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+            <h3 class="text-white font-semibold mb-2">External tool compatibility</h3>
+            <p class="text-gray-400">Designed to depend on and integrate with existing client-side CI/CD tools instead of forcing teams to replace them.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+            <h3 class="text-white font-semibold mb-2">Centralized AppSec dashboard</h3>
+            <p class="text-gray-400">Aggregate findings from multiple scanners and pipelines into one reporting and remediation workspace.</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-950/60 border border-slate-800">
+            <h3 class="text-white font-semibold mb-2">Built-in AST and vulnerability workflows</h3>
+            <p class="text-gray-400">Support multiple testing modes and manage vulnerabilities out of the box from discovery to closure.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-8">
+        <h2 class="text-3xl font-bold text-white mb-6">Ideal use cases</h2>
+        <div class="space-y-4 text-gray-400">
+          <div class="flex items-start gap-3">
+            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-400 flex-shrink-0"></span>
+            <p>Organizations that already use Jenkins, GitLab, or other CI/CD tools and want a dedicated AppSec visibility layer.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-blue-400 flex-shrink-0"></span>
+            <p>DevSecOps teams that need one place to view, prioritize, and govern security findings across pipelines.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-orange-400 flex-shrink-0"></span>
+            <p>Teams that want custom Docker-based scanners for SAST, secret detection, SCA, dependency scanning, DAST, and more.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-purple-400 flex-shrink-0"></span>
+            <p>Enterprises that need vulnerability management built directly into the application security platform.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="w-full px-4 md:px-8">
+      <div class="rounded-3xl border border-slate-800 bg-gradient-to-r from-emerald-950/40 via-slate-900 to-blue-950/40 p-10 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Want to position App Defend in your next client conversation?</h2>
+        <p class="text-gray-300 max-w-2xl mx-auto mb-8">We can help you position it as a CI/CD-connected AppSec platform with dashboard reporting, custom scanner images, and full vulnerability management.</p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="mailto:sales@codingvedha.com?subject=App%20Defend%20Enquiry" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-purple-600 hover:from-orange-600 hover:to-purple-700 text-white font-semibold transition-all duration-300 hover:scale-105">
+            <span>Contact Sales</span>
+          </a>
+          <a href="index.html" class="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-slate-700 hover:border-orange-500 hover:text-orange-400 transition-all duration-300">
+            <span>Go to Homepage</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>
