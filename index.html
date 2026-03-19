@@ -123,6 +123,8 @@
       opacity: 0;
       transform: translateY(30px) scale(0.95);
       transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
     .scroll-card.active {
       opacity: 1;
@@ -131,6 +133,18 @@
     .scroll-card:hover {
       transform: translateY(-5px) scale(1.02);
       box-shadow: 0 20px 40px rgba(249, 115, 22, 0.15);
+    }
+    .scroll-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -30%;
+      width: 30%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      transform: skewX(-18deg);
+      animation: card-sweep 6s ease-in-out infinite;
+      pointer-events: none;
     }
     
     /* Stats Counter Animation */
@@ -142,6 +156,66 @@
     .scroll-stat.active {
       opacity: 1;
       transform: scale(1);
+    }
+
+    @keyframes executive-shine {
+      0% { transform: translateX(-140%); opacity: 0; }
+      20% { opacity: 0.35; }
+      100% { transform: translateX(140%); opacity: 0; }
+    }
+
+    @keyframes orbit-float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes flow-line {
+      0% { transform: translateX(-30%); opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateX(30%); opacity: 0; }
+    }
+
+    @keyframes data-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    @keyframes card-sweep {
+      0% { transform: translateX(-130%) skewX(-18deg); opacity: 0; }
+      20% { opacity: 0.18; }
+      100% { transform: translateX(430%) skewX(-18deg); opacity: 0; }
+    }
+
+    @keyframes section-accent {
+      0% { transform: translateX(-120%); opacity: 0; }
+      25% { opacity: 0.9; }
+      100% { transform: translateX(220%); opacity: 0; }
+    }
+
+    .animate-executive-shine { animation: executive-shine 3.8s ease-in-out infinite; }
+    .animate-orbit-float { animation: orbit-float 4s ease-in-out infinite; }
+    .animate-flow-line { animation: flow-line 3.6s ease-in-out infinite; }
+    .animate-data-pulse { animation: data-pulse 2.8s ease-in-out infinite; }
+
+    .section-heading-accent {
+      position: relative;
+      width: 9rem;
+      height: 2px;
+      margin: 1.5rem auto 0;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, rgba(148,163,184,0.12), rgba(148,163,184,0.35), rgba(148,163,184,0.12));
+      overflow: hidden;
+    }
+
+    .section-heading-accent::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 42%;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, rgba(251,146,60,0), rgba(251,146,60,0.95), rgba(96,165,250,0));
+      animation: section-accent 4.8s ease-in-out infinite;
     }
 
     #page-splash {
@@ -185,22 +259,30 @@
 </script>
 
 <!-- ================= HEADER ================= -->
-<header class="sticky top-0 z-50 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800">
-  <div class="w-full px-4 md:px-8 py-4 flex justify-between items-center">
+<header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+  <div class="w-full px-4 md:px-8 py-3">
+    <div class="relative flex justify-between items-center rounded-2xl border border-white/10 bg-white/[0.04] px-4 md:px-6 py-3 shadow-[0_18px_60px_rgba(15,23,42,0.28)] overflow-hidden">
+      <div class="absolute inset-y-0 left-[-25%] w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent blur-2xl animate-executive-shine pointer-events-none"></div>
     <!-- Logo -->
-    <a href="#home" class="flex items-center">
-      <img src="logo.png" alt="CodingVedha Logo" class="h-10 w-auto"/>
+    <a href="#home" class="relative flex items-center gap-3">
+      <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] shadow-inner shadow-white/5">
+        <img src="logo.png" alt="CodingVedha Logo" class="h-7 w-auto"/>
+      </div>
+      <div class="hidden sm:block">
+        <p class="text-sm font-semibold tracking-[0.24em] text-white/60 uppercase">Coding Vedha</p>
+        <p class="text-xs text-slate-400">Security, Data & Product Engineering</p>
+      </div>
     </a>
     
     <!-- Desktop Navigation (hidden on small screens) -->
-    <nav class="hidden md:flex space-x-8 text-sm font-medium">
+    <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
       <a href="#home" class="text-gray-300 hover:text-orange-500 transition">Home</a>
       <a href="#about" class="text-gray-300 hover:text-orange-500 transition">About</a>
       <a href="#services" class="text-gray-300 hover:text-orange-500 transition">Services</a>
       <a href="#products" class="text-gray-300 hover:text-orange-500 transition">Products</a>
       <a href="#devsecops" class="text-gray-300 hover:text-orange-500 transition">DevSecOps</a>
       <a href="#data-engineering" class="text-gray-300 hover:text-orange-500 transition">Data Engineering</a>
-      <a href="#contact" class="text-gray-300 hover:text-orange-500 transition">Contact</a>
+      <a href="#contact" class="inline-flex items-center rounded-full border border-orange-400/30 bg-gradient-to-r from-orange-500/20 to-blue-500/20 px-5 py-2 text-white shadow-lg shadow-orange-500/10 hover:border-orange-400/60 hover:text-orange-200 transition">Executive Briefing</a>
     </nav>
     
     <!-- Hamburger Button (visible on small screens) -->
@@ -209,10 +291,11 @@
         <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
+    </div>
   </div>
   
   <!-- Mobile Menu (hidden by default) -->
-  <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-t border-slate-800">
+  <div id="mobile-menu" class="hidden md:hidden bg-slate-900/95 backdrop-blur-xl border-t border-slate-800">
     <nav class="flex flex-col px-6 py-4 space-y-3">
       <a href="#home" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">Home</a>
       <a href="#about" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">About</a>
@@ -220,7 +303,7 @@
       <a href="#products" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">Products</a>
       <a href="#devsecops" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">DevSecOps</a>
       <a href="#data-engineering" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">Data Engineering</a>
-      <a href="#contact" class="text-gray-300 hover:text-orange-500 transition py-2">Contact</a>
+      <a href="#contact" class="text-white bg-gradient-to-r from-orange-500/20 to-blue-500/20 border border-orange-400/30 rounded-xl px-4 py-3">Executive Briefing</a>
     </nav>
   </div>
 </header>
@@ -286,20 +369,20 @@
   <!-- Radial Gradient Overlay -->
   <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950"></div>
 
-  <div class="relative w-full px-4 md:px-8 py-20 sm:py-28 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+  <div class="relative w-full px-4 md:px-8 py-24 sm:py-32 lg:py-36 flex justify-center">
 
     <!-- LEFT CONTENT -->
-    <div>
-      <span class="scroll-animate inline-block mb-4 px-4 py-1 text-xs font-semibold tracking-wide text-orange-500 bg-orange-950/30 rounded-full border border-orange-500/20">
+    <div class="w-full max-w-6xl text-center">
+      <span class="scroll-animate inline-block mb-5 px-5 py-1.5 text-sm font-semibold tracking-wide text-orange-500 bg-orange-950/30 rounded-full border border-orange-500/20">
         Secure • Scalable • Intelligent
       </span>
 
-      <h1 class="scroll-animate scroll-delay-100 text-4xl md:text-5xl xl:text-6xl font-bold text-white leading-tight mb-6">
+      <h1 class="scroll-animate scroll-delay-100 text-5xl md:text-6xl xl:text-7xl font-bold text-white leading-tight mb-7">
         Predictable Results,<br />
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-orange-400 to-purple-400">Powered by Experience</span>
       </h1>
 
-      <p class="scroll-animate scroll-delay-200 text-gray-400 text-lg max-w-xl mb-8 leading-relaxed">
+      <p class="scroll-animate scroll-delay-200 text-gray-400 text-xl max-w-4xl mx-auto mb-10 leading-relaxed">
         CodingVedha is a technology consulting company enabling enterprises to
         build <strong class="text-gray-300">secure software delivery pipelines</strong>,
         <strong class="text-gray-300">scalable data platforms</strong>, and
@@ -308,7 +391,7 @@
       </p>
 
       <!-- CTA -->
-      <div class="scroll-animate scroll-delay-300 flex flex-wrap gap-4">
+      <div class="scroll-animate scroll-delay-300 flex flex-wrap justify-center gap-4">
         <a href="#contact"
            class="group relative bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-8 py-4 rounded-xl text-white font-semibold shadow-lg shadow-purple-600/25 transition-all duration-300 hover:shadow-purple-600/40 hover:scale-105">
           <span class="relative z-10">Request Free Consultation</span>
@@ -320,57 +403,6 @@
         </a>
       </div>
     </div>
-
-    <!-- RIGHT SIDE – VALUE BLOCKS -->
-    <div class="grid sm:grid-cols-2 gap-6 relative">
-      <!-- Decorative glow -->
-      <div class="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-orange-600/10 rounded-3xl blur-xl"></div>
-      
-      <div class="scroll-card bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-300 group relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-600/20 to-transparent rounded-full blur-xl group-hover:bg-purple-600/30 transition-all"></div>
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600/20 to-blue-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-        </div>
-        <h4 class="font-semibold text-lg mb-2 text-white group-hover:text-orange-400 transition-colors">DevSecOps Excellence</h4>
-        <p class="text-gray-400 text-sm">
-          Secure-first CI/CD pipelines with automated compliance and cloud-native delivery.
-        </p>
-      </div>
-
-      <div class="scroll-card scroll-delay-100 bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-300 group relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-600/20 to-transparent rounded-full blur-xl group-hover:bg-blue-600/30 transition-all"></div>
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/></svg>
-        </div>
-        <h4 class="font-semibold text-lg mb-2 text-white group-hover:text-orange-400 transition-colors">Data Engineering at Scale</h4>
-        <p class="text-gray-400 text-sm">
-          Real-time data pipelines, analytics platforms, and enterprise BI solutions.
-        </p>
-      </div>
-
-      <div class="scroll-card scroll-delay-200 bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-300 group relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-600/20 to-purple-600/20 rounded-full blur-xl group-hover:bg-orange-600/30 transition-all"></div>
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-600/20 to-purple-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-        </div>
-        <h4 class="font-semibold text-lg mb-2 text-white group-hover:text-orange-400 transition-colors">AI-Driven Automation</h4>
-        <p class="text-gray-400 text-sm">
-          Intelligent automation reducing operational overhead and accelerating delivery.
-        </p>
-      </div>
-
-      <div class="scroll-card scroll-delay-300 bg-slate-900/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-300 group relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-full blur-xl group-hover:cyan-blue-600/30 transition-all"></div>
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-600/20 to-blue-600/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-        </div>
-        <h4 class="font-semibold text-lg mb-2 text-white group-hover:text-orange-400 transition-colors">Enterprise Consulting</h4>
-        <p class="text-gray-400 text-sm">
-          Outcome-focused solutions aligned with security, scalability, and performance.
-        </p>
-      </div>
-    </div>
-
   </div>
 
   <!-- Scroll Indicator -->
@@ -448,6 +480,7 @@
       <p class="text-gray-400 max-w-2xl mx-auto text-lg">
         A team of passionate technologists delivering enterprise-grade solutions
       </p>
+      <div class="section-heading-accent"></div>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
@@ -599,6 +632,7 @@
       <p class="text-gray-400 max-w-2xl mx-auto text-lg">
         Comprehensive technology solutions tailored to accelerate your digital transformation
       </p>
+      <div class="section-heading-accent"></div>
     </div>
 
     <!-- Services Grid -->
@@ -770,6 +804,7 @@
       <p class="text-gray-400 max-w-3xl mx-auto text-lg">
         An application security testing and vulnerability management platform built to work with the tools your clients already use, including external SCM and CI/CD ecosystems.
       </p>
+      <div class="section-heading-accent"></div>
     </div>
 
     <div class="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-stretch">
@@ -890,6 +925,7 @@
       <p class="text-gray-400 max-w-3xl mx-auto text-lg">
         Transforming innovation, security, speed & AI-driven operations for enterprise-grade delivery
       </p>
+      <div class="section-heading-accent"></div>
     </div>
 
     <!-- Main Content Grid -->
@@ -1068,6 +1104,7 @@
       <p class="text-gray-400 max-w-3xl mx-auto text-lg">
         Power your data-driven transformation with scalable, secure, and intelligent data platforms
       </p>
+      <div class="section-heading-accent"></div>
     </div>
 
     <!-- Main Content Grid -->
