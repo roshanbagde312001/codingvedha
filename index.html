@@ -34,15 +34,6 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-5px); }
     }
-    @keyframes spinner-rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    @keyframes spinner-dash {
-      0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
-      50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
-      100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
-    }
     @keyframes pulse-slow-scale {
       0%, 100% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.05); opacity: 0.8; }
@@ -152,169 +143,44 @@
       opacity: 1;
       transform: scale(1);
     }
+
+    #page-splash {
+      transition: opacity 0.45s ease-out, visibility 0.45s ease-out;
+    }
+
+    #page-splash.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
   </style>
 </head>
 
 <body class="bg-slate-950 text-gray-200 font-sans scroll-smooth leading-relaxed">
 
-<!-- ================= CUSTOM PRELOADER ================= -->
-<div id="preloader" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950">
-  <!-- Animated background orbs -->
+<div id="page-splash" class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/55 backdrop-blur-2xl">
   <div class="absolute inset-0 overflow-hidden">
-    <div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-600/20 blur-[120px] animate-pulse-slow"></div>
-    <div class="absolute top-[20%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-orange-600/15 blur-[100px] animate-pulse-slow-delayed"></div>
-    <div class="absolute bottom-[-20%] left-[20%] w-[45vw] h-[45vw] rounded-full bg-blue-600/15 blur-[120px] animate-float"></div>
+    <div class="absolute top-[-18%] left-[-8%] w-[44vw] h-[44vw] rounded-full bg-purple-600/20 blur-[120px] animate-pulse-slow"></div>
+    <div class="absolute top-[16%] right-[-10%] w-[36vw] h-[36vw] rounded-full bg-orange-600/15 blur-[100px] animate-pulse-slow-delayed"></div>
+    <div class="absolute bottom-[-20%] left-[22%] w-[40vw] h-[40vw] rounded-full bg-blue-600/15 blur-[120px] animate-float"></div>
   </div>
-  
-  <!-- Grid pattern overlay -->
-  <div class="absolute inset-0 bg-[linear-gradient(rgba(100,100,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(100,100,255,0.03)_1px,transparent_1px)] bg-[size:80px_80px]"></div>
-  
-  <!-- Radial gradient overlay -->
-  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950/50"></div>
-  
-  <!-- Loader content -->
-  <div class="relative flex flex-col items-center">
-    <!-- Logo container -->
-    <div class="mb-8 animate-pulse-slow-scale">
-      <img src="logo.png" alt="CodingVedha Logo" class="h-16 w-auto"/>
-    </div>
-    
-    <!-- Spinner -->
-    <div class="relative">
-      <svg class="w-16 h-16 animate-spinner-rotate" viewBox="0 0 50 50">
-        <circle
-          class="spinner-ring"
-          cx="25"
-          cy="25"
-          r="20"
-          fill="none"
-          stroke="url(#spinner-gradient)"
-          stroke-width="3"
-          stroke-linecap="round"
-          stroke-dasharray="90, 150"
-          stroke-dashoffset="0"
-        />
-        <defs>
-          <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
-            <stop offset="50%" style="stop-color:#a855f7;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <!-- Inner glow circle -->
-      <svg class="absolute top-0 left-0 w-16 h-16 animate-spinner-rotate" viewBox="0 0 50 50" style="animation-duration: 1.5s; animation-direction: reverse;">
-        <circle
-          cx="25"
-          cy="25"
-          r="16"
-          fill="none"
-          stroke="url(#spinner-gradient-inner)"
-          stroke-width="1"
-          stroke-opacity="0.3"
-        />
-        <defs>
-          <linearGradient id="spinner-gradient-inner" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-    
-    <!-- Loading text -->
-    <div class="mt-8 text-center">
-      <p class="text-gray-300 text-lg font-medium animate-pulse-slow-scale">Loading Experience</p>
-      <div class="flex items-center justify-center gap-1 mt-3">
-        <span class="w-2 h-2 rounded-full bg-orange-500 animate-bounce" style="animation-delay: 0s;"></span>
-        <span class="w-2 h-2 rounded-full bg-purple-500 animate-bounce" style="animation-delay: 0.15s;"></span>
-        <span class="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style="animation-delay: 0.3s;"></span>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Progress bar -->
-  <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-48">
-    <div class="h-1 bg-slate-800 rounded-full overflow-hidden">
-      <div class="h-full w-1/2 bg-gradient-to-r from-orange-500 via-purple-500 to-blue-500 rounded-full animate-pulse-slow"></div>
-    </div>
+  <div class="relative flex items-center justify-center rounded-[2rem] border border-white/10 bg-slate-900/30 px-10 py-8 shadow-2xl shadow-slate-950/40">
+    <img src="logo.png" alt="CodingVedha Logo" class="h-16 md:h-20 w-auto animate-pulse-slow-scale" />
   </div>
 </div>
 
-<!-- Preloader styles -->
-<style>
-  #preloader {
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-  }
-  
-  #preloader.fade-out {
-    opacity: 0;
-    visibility: hidden;
-  }
-  
-  .animate-spinner-rotate {
-    animation: spinner-rotate 2s linear infinite;
-  }
-  
-  .animate-spinner-dash {
-    animation: spinner-dash 1.5s ease-in-out infinite;
-  }
-  
-  .spinner-ring {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: 0;
-    animation: spinner-dash 1.5s ease-in-out infinite;
-  }
-</style>
-
-<!-- Preloader script -->
 <script>
-  // Preloader functionality
   document.addEventListener('DOMContentLoaded', function() {
-    const preloader = document.getElementById('preloader');
-    const MIN_DISPLAY_TIME = 2500; // Minimum time to show loader (2.5 seconds)
-    
-    // Get page load time tracker
-    let loadComplete = false;
-    let domReadyTime = Date.now();
-    
-    // When page is fully loaded
+    const pageSplash = document.getElementById('page-splash');
+    if (!pageSplash) return;
+
     window.addEventListener('load', function() {
-      loadComplete = true;
-      const loadTime = Date.now();
-      const elapsedTime = loadTime - domReadyTime;
-      
-      // Calculate additional delay needed
-      const additionalDelay = Math.max(0, MIN_DISPLAY_TIME - elapsedTime);
-      
-      // Add fade-out class after minimum display time
       setTimeout(function() {
-        preloader.classList.add('fade-out');
-        
-        // Remove from DOM after animation completes
+        pageSplash.classList.add('fade-out');
         setTimeout(function() {
-          preloader.style.display = 'none';
-        }, 500);
-      }, additionalDelay);
+          pageSplash.remove();
+        }, 450);
+      }, 550);
     });
-    
-    // Fallback: If load event takes too long, still ensure minimum display time
-    setTimeout(function() {
-      if (!loadComplete) {
-        // Still waiting for page to load, but ensure minimum time has passed
-        const elapsedTime = Date.now() - domReadyTime;
-        const remainingTime = Math.max(0, MIN_DISPLAY_TIME - elapsedTime);
-        
-        setTimeout(function() {
-          if (!preloader.classList.contains('fade-out')) {
-            preloader.classList.add('fade-out');
-            setTimeout(function() {
-              preloader.style.display = 'none';
-            }, 500);
-          }
-        }, remainingTime);
-      }
-    }, MIN_DISPLAY_TIME);
   });
 </script>
 

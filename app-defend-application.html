@@ -17,9 +17,45 @@
     }
     .animate-pulse-slow { animation: pulse-slow 8s ease-in-out infinite; }
     .animate-float { animation: float 14s ease-in-out infinite; }
+
+    #page-splash {
+      transition: opacity 0.45s ease-out, visibility 0.45s ease-out;
+    }
+
+    #page-splash.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-gray-200 font-sans scroll-smooth leading-relaxed">
+
+<div id="page-splash" class="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-950/55 backdrop-blur-2xl">
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute top-[-18%] left-[-8%] w-[44vw] h-[44vw] rounded-full bg-emerald-600/18 blur-[120px] animate-pulse-slow"></div>
+    <div class="absolute top-[16%] right-[-10%] w-[36vw] h-[36vw] rounded-full bg-blue-600/16 blur-[100px] animate-pulse-slow"></div>
+    <div class="absolute bottom-[-20%] left-[22%] w-[40vw] h-[40vw] rounded-full bg-purple-600/12 blur-[120px] animate-float"></div>
+  </div>
+  <div class="relative flex items-center justify-center rounded-[2rem] border border-white/10 bg-slate-900/30 px-10 py-8 shadow-2xl shadow-slate-950/40">
+    <img src="logo.png" alt="CodingVedha Logo" class="h-16 md:h-20 w-auto animate-pulse-slow" />
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const pageSplash = document.getElementById('page-splash');
+    if (!pageSplash) return;
+
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        pageSplash.classList.add('fade-out');
+        setTimeout(function() {
+          pageSplash.remove();
+        }, 450);
+      }, 550);
+    });
+  });
+</script>
 
 <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
   <div class="w-full px-4 md:px-8 py-4 flex items-center justify-between">
