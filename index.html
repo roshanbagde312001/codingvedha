@@ -146,6 +146,70 @@
       animation: card-sweep 6s ease-in-out infinite;
       pointer-events: none;
     }
+
+    .services-carousel {
+      position: relative;
+      overflow: hidden;
+      padding: 1rem 0 1.5rem;
+      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    }
+
+    .services-carousel-track {
+      display: flex;
+      align-items: stretch;
+      gap: 1.5rem;
+      width: max-content;
+      will-change: transform;
+      animation: services-marquee 28s linear infinite;
+    }
+
+    .services-carousel:hover .services-carousel-track {
+      animation-play-state: paused;
+    }
+
+    .service-carousel-card {
+      width: min(24rem, 82vw);
+      min-height: 100%;
+      flex: 0 0 auto;
+    }
+
+    .services-carousel::before,
+    .services-carousel::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 5rem;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .services-carousel::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(2,6,23,0.95), rgba(2,6,23,0));
+    }
+
+    .services-carousel::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(2,6,23,0.95), rgba(2,6,23,0));
+    }
+
+    @keyframes services-marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(-50% - 0.75rem)); }
+    }
+
+    @media (max-width: 768px) {
+      .services-carousel-track {
+        gap: 1rem;
+        animation-duration: 22s;
+      }
+
+      .service-carousel-card {
+        width: min(20rem, 84vw);
+      }
+    }
     
     /* Stats Counter Animation */
     .scroll-stat {
@@ -265,11 +329,14 @@
       <div class="absolute inset-y-0 left-[-25%] w-1/3 bg-gradient-to-r from-transparent via-white/10 to-transparent blur-2xl animate-executive-shine pointer-events-none"></div>
     <!-- Logo -->
     <a href="#home" class="relative flex items-center gap-3">
-      <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] shadow-inner shadow-white/5">
-        <img src="logo.png" alt="CodingVedha Logo" class="h-7 w-auto"/>
+      <div class="flex items-center justify-center">
+        <img src="logo.png" alt="CodingVedha Logo" class="h-16 w-auto"/>
       </div>
       <div class="hidden sm:block">
-        <p class="text-sm font-semibold tracking-[0.24em] text-white/60 uppercase">Coding Vedha</p>
+        <p class="text-sm font-bold tracking-[0.24em] uppercase">
+          <span class="text-blue-400">Coding</span>
+          <span class="text-orange-400">Vedha</span>
+        </p>
         <p class="text-xs text-slate-400">Where code meets wisdom</p>
       </div>
     </a>
@@ -280,7 +347,6 @@
       <a href="#about" class="text-gray-300 hover:text-orange-500 transition">About</a>
       <a href="#services" class="text-gray-300 hover:text-orange-500 transition">Services</a>
       <a href="#products" class="text-gray-300 hover:text-orange-500 transition">Products</a>
-      <a href="#devsecops" class="text-gray-300 hover:text-orange-500 transition">DevSecOps</a>
       <a href="#contact" class="inline-flex items-center rounded-full border border-orange-400/30 bg-gradient-to-r from-orange-500/20 to-blue-500/20 px-5 py-2 text-white shadow-lg shadow-orange-500/10 hover:border-orange-400/60 hover:text-orange-200 transition">Executive Briefing</a>
     </nav>
     
@@ -300,7 +366,6 @@
       <a href="#about" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">About</a>
       <a href="#services" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">Services</a>
       <a href="#products" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">Products</a>
-      <a href="#devsecops" class="text-gray-300 hover:text-orange-500 transition py-2 border-b border-slate-800">DevSecOps</a>
       <a href="#contact" class="text-white bg-gradient-to-r from-orange-500/20 to-blue-500/20 border border-orange-400/30 rounded-xl px-4 py-3">Executive Briefing</a>
     </nav>
   </div>
@@ -367,7 +432,7 @@
   <!-- Radial Gradient Overlay -->
   <div class="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-transparent to-slate-950"></div>
 
-  <div class="relative w-full px-4 md:px-8 py-24 sm:py-32 lg:py-36 flex justify-center">
+  <div class="relative w-full px-4 md:px-8 pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28 flex justify-center">
 
     <!-- LEFT CONTENT -->
     <div class="w-full max-w-6xl text-center">
@@ -634,10 +699,11 @@
     </div>
 
     <!-- Services Grid -->
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+    <div class="services-carousel">
+    <div class="services-carousel-track" id="services-carousel-track">
       
       <!-- Service Card 1: DevSecOps -->
-      <div class="scroll-card group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+      <div class="service-carousel-card scroll-card group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
         <!-- Glow effect -->
         <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-600/20 to-transparent rounded-full blur-2xl group-hover:bg-purple-500/30 transition-all duration-500"></div>
         
@@ -658,7 +724,7 @@
       </div>
 
       <!-- Service Card 3: Software Development -->
-      <div id="software-development-card" class="scroll-card scroll-delay-200 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+      <div id="software-development-card" class="service-carousel-card scroll-card scroll-delay-200 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
         <!-- Glow effect -->
         <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-orange-600/20 to-purple-600/20 rounded-full blur-2xl group-hover:bg-orange-500/30 transition-all duration-500"></div>
         
@@ -683,7 +749,7 @@
       </div>
 
       <!-- Service Card 4: IT Resource Staffing -->
-      <div id="it-resource-staffing-card" class="scroll-card scroll-delay-300 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+      <div id="it-resource-staffing-card" class="service-carousel-card scroll-card scroll-delay-300 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
         <!-- Glow effect -->
         <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-full blur-2xl group-hover:bg-cyan-500/30 transition-all duration-500"></div>
         
@@ -708,7 +774,7 @@
       </div>
 
       <!-- Service Card 5: AI-Based Automation -->
-      <div id="ai-automation-card" class="scroll-card scroll-delay-400 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
+      <div id="ai-automation-card" class="service-carousel-card scroll-card scroll-delay-400 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
         <!-- Glow effect -->
         <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-pink-600/20 to-orange-600/20 rounded-full blur-2xl group-hover:bg-pink-500/30 transition-all duration-500"></div>
         
@@ -732,31 +798,8 @@
         </div>
       </div>
 
-      <!-- Service Card 6: App Defend -->
-      <div class="scroll-card scroll-delay-500 group relative bg-slate-900/80 backdrop-blur-sm p-8 rounded-2xl border border-slate-800 hover:border-orange-500/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/10 overflow-hidden">
-        <!-- Glow effect -->
-        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-600/20 to-emerald-600/20 rounded-full blur-2xl group-hover:bg-green-500/30 transition-all duration-500"></div>
-        
-        <!-- Icon -->
-        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-600/30 to-emerald-600/30 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300">
-          <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-        </div>
-        
-        <h4 class="text-xl font-semibold mb-3 text-white group-hover:text-orange-400 transition-colors duration-300">App Defend Application</h4>
-        <p class="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-          An application security testing platform that connects with client SCM and CI/CD tools, ingests scan reports, and centralizes vulnerability management.
-        </p>
-        <a href="app-defend-application.html" class="relative z-10 mt-5 inline-flex items-center gap-2 text-sm font-semibold text-green-400 hover:text-orange-400 transition-colors duration-300">
-          <span>Explore product</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-        
-        <!-- Arrow indicator -->
-        <div class="absolute bottom-8 right-8 w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-          <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </div>
-      </div>
-
+    </div>
+    </div>
     </div>
 
     <!-- Bottom CTA -->
@@ -1324,10 +1367,53 @@
     <p class="text-gray-300 mb-8">
       Let's discuss how CodingVedha can accelerate your digital transformation.
     </p>
-    <a href="mailto:sales@codingvedha.com"
+    <button
+       id="open-contact-form"
+       type="button"
        class="scroll-animate scroll-delay-200 inline-block bg-gradient-to-r from-orange-500 to-purple-600 text-white px-10 py-4 rounded-xl font-semibold shadow-xl hover:shadow-orange-500/25 hover:scale-105 transition">
       Contact Our Experts
-    </a>
+    </button>
+
+    <div id="contact-form-panel" class="hidden max-w-3xl mx-auto mt-10 text-left">
+      <div class="rounded-3xl border border-white/10 bg-slate-900/70 backdrop-blur-xl p-6 md:p-8 shadow-2xl shadow-slate-950/40">
+        <div class="mb-6 text-center">
+          <h4 class="text-2xl font-bold text-white">Contact Our Experts</h4>
+          <p class="mt-2 text-sm text-slate-300">Fill this form and your mail app will open a message addressed to sales@codingvedha.com.</p>
+        </div>
+        <form id="contact-mail-form" action="mailto:sales@codingvedha.com" method="post" enctype="text/plain" class="grid gap-4 md:grid-cols-2">
+          <div>
+            <label for="contact-name" class="mb-2 block text-sm font-medium text-slate-200">Full Name</label>
+            <input id="contact-name" name="Name" type="text" required class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-white placeholder-slate-500 focus:border-orange-400 focus:outline-none" placeholder="Your name" />
+          </div>
+          <div>
+            <label for="contact-company" class="mb-2 block text-sm font-medium text-slate-200">Company</label>
+            <input id="contact-company" name="Company" type="text" class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-white placeholder-slate-500 focus:border-orange-400 focus:outline-none" placeholder="Company name" />
+          </div>
+          <div>
+            <label for="contact-email" class="mb-2 block text-sm font-medium text-slate-200">Email</label>
+            <input id="contact-email" name="Email" type="email" required class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-white placeholder-slate-500 focus:border-orange-400 focus:outline-none" placeholder="you@company.com" />
+          </div>
+          <div>
+            <label for="contact-phone" class="mb-2 block text-sm font-medium text-slate-200">Phone</label>
+            <input id="contact-phone" name="Phone" type="tel" class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-white placeholder-slate-500 focus:border-orange-400 focus:outline-none" placeholder="+91 00000 00000" />
+          </div>
+          <div class="md:col-span-2">
+            <label for="contact-subject" class="mb-2 block text-sm font-medium text-slate-200">Subject</label>
+            <input id="contact-subject" name="Subject" type="text" required class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-white placeholder-slate-500 focus:border-orange-400 focus:outline-none" placeholder="How can we help?" />
+          </div>
+          <div class="md:col-span-2">
+            <label for="contact-message" class="mb-2 block text-sm font-medium text-slate-200">Message</label>
+            <textarea id="contact-message" name="Message" rows="5" required class="w-full rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-white placeholder-slate-500 focus:border-orange-400 focus:outline-none" placeholder="Tell us about your requirement"></textarea>
+          </div>
+          <div class="md:col-span-2 flex flex-col items-center justify-between gap-3 pt-2 sm:flex-row">
+            <p class="text-xs text-slate-400">Submitting opens your default mail client with this information addressed to sales@codingvedha.com.</p>
+            <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-orange-500 to-purple-600 px-6 py-3 font-semibold text-white shadow-lg shadow-orange-500/20 transition hover:scale-[1.02] hover:shadow-orange-500/30">
+              Send Email
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1429,6 +1515,33 @@
 <script>
   // Scroll Animation Script using Intersection Observer
   document.addEventListener('DOMContentLoaded', function() {
+    const openContactFormButton = document.getElementById('open-contact-form');
+    const contactFormPanel = document.getElementById('contact-form-panel');
+
+    if (openContactFormButton && contactFormPanel) {
+      openContactFormButton.addEventListener('click', function() {
+        contactFormPanel.classList.remove('hidden');
+        contactFormPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const firstField = contactFormPanel.querySelector('input, textarea');
+        if (firstField) {
+          window.setTimeout(() => firstField.focus(), 350);
+        }
+      });
+    }
+
+    const servicesTrack = document.getElementById('services-carousel-track');
+    if (servicesTrack && !servicesTrack.dataset.enhanced) {
+      servicesTrack.dataset.enhanced = 'true';
+      const cards = Array.from(servicesTrack.children);
+      cards.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        clone.removeAttribute('id');
+        clone.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
+        servicesTrack.appendChild(clone);
+      });
+    }
+
     // Create Intersection Observer
     const observerOptions = {
       root: null,
